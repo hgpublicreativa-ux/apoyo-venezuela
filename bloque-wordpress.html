@@ -1,0 +1,795 @@
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet"/>
+
+<style>
+/* ══ FULL-WIDTH BREAKOUT ══════════════════════════════ */
+.av-root{
+  width:100vw;
+  position:relative;
+  left:50%;
+  transform:translateX(-50%);
+  max-width:none !important;
+  box-sizing:border-box;
+}
+
+/* ══ TOKENS ═══════════════════════════════════════════ */
+.av-root{
+  /* Venezuela + Ecuador flag colors */
+  --amarillo:#FCD116;
+  --azul:#003893;
+  --rojo:#CF1720;
+  /* Derived */
+  --azul-deep:#001429;
+  --azul-mid:#002255;
+  --amarillo-dim:rgba(252,209,22,.12);
+  --amarillo-line:rgba(252,209,22,.25);
+  --rojo-dim:rgba(207,23,32,.15);
+  --blanco:#FFFFFF;
+  --crema:#F5EFD8;
+  --gris:#8A9BB5;
+  --linea:rgba(255,255,255,.1);
+  --r:10px;--r-sm:5px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  font-family:'Source Sans 3',sans-serif;
+  background:var(--azul-deep);
+  color:var(--blanco);
+  -webkit-font-smoothing:antialiased;
+}
+.av-root *,.av-root *::before,.av-root *::after{box-sizing:border-box;margin:0;padding:0;}
+.av-root img{display:block;width:100%;height:auto;}
+.av-root a{color:inherit;text-decoration:none;}
+.av-root ul{list-style:none;}
+.av-root p{line-height:1.7;}
+
+/* ══ TYPOGRAPHY ════════════════════════════════════════ */
+.av-display{
+  font-family:'Bebas Neue',sans-serif;
+  letter-spacing:.04em;line-height:.95;
+}
+.av-serif{font-family:'Lora',Georgia,serif;}
+.av-root h1{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;line-height:.95;}
+.av-root h2{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;line-height:.95;}
+.av-root h3{font-family:'Lora',serif;font-weight:600;line-height:1.25;}
+
+/* ══ FLAG STRIPE ═══════════════════════════════════════ */
+.av-flag-stripe{
+  height:3px;
+  background:var(--amarillo);
+  flex-shrink:0;
+}
+.av-flag-stripe--v{
+  width:5px;height:100%;
+  background:linear-gradient(180deg,var(--amarillo) 0 33.33%,var(--azul) 33.33% 66.66%,var(--rojo) 66.66% 100%);
+  flex-shrink:0;
+}
+
+/* ══ LAYOUT ════════════════════════════════════════════ */
+.av-container{max-width:1120px;margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2.5rem);}
+.av-section{padding-block:clamp(3.5rem,7vw,6.5rem);}
+
+/* ══ REVEAL ════════════════════════════════════════════ */
+.av-reveal{opacity:0;transform:translateY(28px);transition:opacity .65s var(--ease),transform .65s var(--ease);}
+.av-reveal.is-visible{opacity:1;transform:none;}
+.av-reveal[data-split]{opacity:1;transform:none;}
+
+/* ══ BUTTONS ═══════════════════════════════════════════ */
+.av-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.75rem 1.75rem;
+  font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.1em;
+  transition:background .2s var(--ease),transform .18s var(--ease),box-shadow .18s var(--ease);
+  white-space:nowrap;cursor:pointer;border:none;
+}
+.av-btn:hover{transform:translateY(-2px);}
+.av-btn-primary{background:var(--amarillo);color:var(--azul-deep);}
+.av-btn-primary:hover{background:#ffe033;box-shadow:0 8px 28px rgba(252,209,22,.35);}
+.av-btn-rojo{background:var(--rojo);color:#fff;}
+.av-btn-rojo:hover{background:#a8121b;box-shadow:0 8px 28px rgba(207,23,32,.4);}
+.av-btn-outline{background:transparent;color:var(--amarillo);border:1.5px solid var(--amarillo-line);}
+.av-btn-outline:hover{background:var(--amarillo-dim);border-color:var(--amarillo);}
+.av-btn-sm{padding:.5rem 1.2rem;font-size:.9rem;}
+.av-btn-full{width:100%;justify-content:center;}
+.av-btn-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.08em;
+  color:var(--amarillo);transition:gap .2s;
+}
+.av-btn-link:hover{gap:.7rem;}
+
+/* ══ HERO ═══════════════════════════════════════════════ */
+.av-hero{
+  position:relative;overflow:hidden;
+  min-height:42vh;min-height:42svh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.av-hero-bg{position:absolute;inset:0;z-index:0;}
+.av-hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center;}
+.av-hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(to top, rgba(0,20,41,.97) 0%, rgba(0,20,41,.75) 35%, rgba(0,20,41,.3) 70%, transparent 100%),
+    linear-gradient(to right, rgba(0,20,41,.6) 0%, transparent 60%);
+}
+.av-hero-accent{
+  position:absolute;top:0;left:0;right:0;z-index:2;
+  height:5px;
+  background:linear-gradient(90deg,var(--amarillo) 0 33.33%,var(--azul) 33.33% 66.66%,var(--rojo) 66.66% 100%);
+}
+.av-hero-grain{
+  position:absolute;inset:0;z-index:2;opacity:.04;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.av-hero-content{
+  position:relative;z-index:3;
+  padding-block:clamp(1.5rem,3vh,2.5rem) clamp(2rem,4vh,3.5rem);
+  text-align:left;
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:end;
+}
+@media(max-width:768px){.av-hero-content{grid-template-columns:1fr;align-items:start;}}
+.av-hero-eyebrow{
+  display:flex;align-items:center;gap:.65rem;
+  font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:1.5rem;
+}
+.av-eyebrow-pulse{
+  width:8px;height:8px;border-radius:50%;background:var(--rojo);flex-shrink:0;
+  animation:av-pulse 1.4s cubic-bezier(.4,0,.6,1) infinite;
+}
+@keyframes av-pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0;transform:scale(1.8);}}
+.av-hero-left{display:flex;flex-direction:column;justify-content:flex-end;}
+.av-hero-logo{display:none;}
+.av-hero-logo-main{height:auto !important;width:260px !important;max-width:260px !important;object-fit:contain;margin-bottom:1.5rem;filter:drop-shadow(0 4px 20px rgba(0,0,0,.7));}
+.av-hero-title{
+  font-size:clamp(3.5rem,9vw,8rem);
+  color:var(--blanco);margin-bottom:1rem;max-width:14ch;
+}
+.av-hero-title .av-amarillo{color:var(--amarillo);}
+.av-hero-title .av-rojo{color:var(--rojo);}
+.av-hero-sub{
+  font-family:'Lora',serif;
+  font-size:clamp(.95rem,1.5vw,1.1rem);
+  color:rgba(255,255,255,.72);max-width:48ch;
+  margin-bottom:2.5rem;line-height:1.7;
+}
+.av-hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem;}
+.av-hero-stats-wrapper{
+  display:flex;flex-direction:column;align-items:flex-end;gap:.8rem;
+  margin-left:auto;max-width:fit-content;
+}
+.av-hero-stats-label{
+  font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--amarillo);margin:0;
+}
+.av-hero-stats{
+  display:flex;align-items:stretch;gap:0;
+  border:1px solid var(--amarillo-line);
+  max-width:fit-content;
+  background:rgba(0,20,41,.6);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.av-stat{
+  display:flex;flex-direction:column;gap:.2rem;
+  padding:.9rem 1.5rem;border-right:1px solid var(--amarillo-line);
+}
+.av-stat:last-child{border-right:none;}
+.av-stat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.6rem,3vw,2.4rem);
+  color:var(--amarillo);letter-spacing:.04em;line-height:1;
+}
+.av-stat-label{font-size:.68rem;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;}
+
+/* ══ TICKER ═════════════════════════════════════════════ */
+.av-ticker{
+  background:var(--rojo);color:#fff;
+  overflow:hidden;padding-block:.65rem;
+  font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.14em;white-space:nowrap;
+}
+.av-ticker-track{display:inline-flex;gap:2rem;animation:av-ticker 30s linear infinite;}
+.av-ticker-sep{color:rgba(255,255,255,.4);}
+@keyframes av-ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ══ SECTION HEADER ══════════════════════════════════════ */
+.av-section-header{margin-bottom:clamp(2rem,4.5vw,3.5rem);}
+.av-section-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,8vw,7rem);
+  color:var(--amarillo);opacity:.15;line-height:1;
+  margin-bottom:-.5em;
+  display:block;
+}
+.av-eyebrow-tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--amarillo);margin-bottom:.75rem;
+}
+.av-eyebrow-tag::before{content:'';width:24px;height:1.5px;background:var(--amarillo);}
+.av-section-title{font-size:clamp(2.2rem,5vw,4rem);color:var(--blanco);margin-bottom:.5rem;}
+.av-section-title .av-am{color:var(--amarillo);}
+.av-section-title .av-ro{color:var(--rojo);}
+
+/* ══ SISTEMA COMPARTIDO §01 / §02 ════════════════════════ */
+/* Secciones hermanas — misma escala, distinto fondo */
+.av-equipos,.av-retornados{
+  padding-block:clamp(3.5rem,6vw,6rem);
+}
+/* Eyebrow tag coherente */
+.av-equipos .av-eyebrow-tag,
+.av-retornados .av-eyebrow-tag{
+  color:var(--amarillo);font-size:.65rem;letter-spacing:.18em;
+}
+.av-equipos .av-eyebrow-tag::before,
+.av-retornados .av-eyebrow-tag::before{background:var(--amarillo);}
+
+/* ══ §01 EQUIPOS ═════════════════════════════════════════ */
+.av-equipos{background:#003893;}
+
+.av-equipos{position:relative;}
+
+.av-equipos-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(2.5rem,5vw,5rem);align-items:start;
+  margin-top:2.5rem;
+}
+@media(max-width:720px){.av-equipos-grid{grid-template-columns:1fr;}}
+.av-equipos-text{display:flex;flex-direction:column;gap:1.5rem;}
+.av-equipos-text p{
+  color:rgba(255,255,255,.6);font-size:.92rem;
+  font-family:'Lora',serif;line-height:1.8;
+}
+
+/* Tabla de datos */
+.av-usar-datos{display:flex;flex-direction:column;gap:0;margin-top:.5rem;}
+.av-usar-item{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.1);gap:1rem;
+  transition:padding-left .2s;
+}
+.av-usar-item:hover{padding-left:.5rem;}
+.av-usar-item:last-child{border-bottom:none;}
+.av-usar-label{font-size:.8rem;color:rgba(255,255,255,.5);letter-spacing:.02em;}
+.av-usar-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.2rem;letter-spacing:.06em;color:var(--amarillo);
+  white-space:nowrap;
+}
+
+/* Imagen */
+.av-usar-img{
+  position:relative;overflow:hidden;aspect-ratio:4/3;
+}
+.av-usar-img img{width:100%;height:100%;object-fit:cover;transition:transform 7s ease;}
+.av-usar-img:hover img{transform:scale(1.04);}
+.av-usar-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,20,41,.6) 0%,transparent 55%);
+}
+.av-usar-img::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;z-index:2;height:3px;
+  background:var(--amarillo);
+}
+.av-usar-img-stripe{display:none;}
+
+/* ══ §02 RETORNADOS ══════════════════════════════════════ */
+/* av-retornados fusionado en av-equipos — estilos de section legacy removidos */
+
+/* Grid de 4 cards */
+.av-retornados-inner{
+  margin-top:clamp(3rem,5vw,5rem);
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:clamp(2.5rem,4vw,4rem);
+}
+.av-section-header--sub{margin-bottom:2rem;}
+.av-retorno-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border:1px solid rgba(252,209,22,.12);
+}
+@media(max-width:900px){.av-retorno-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.av-retorno-grid{grid-template-columns:1fr;}}
+
+.av-retorno-card{
+  background:transparent;padding:2.25rem 1.75rem;
+  display:flex;flex-direction:column;gap:1rem;
+  border-right:1px solid rgba(252,209,22,.12);
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.av-retorno-card:last-child{border-right:none;}
+/* Acento vertical izquierdo — hover */
+.av-retorno-card::before{
+  content:'';position:absolute;top:0;left:0;width:2px;height:0;
+  background:var(--amarillo);
+  transition:height .45s cubic-bezier(.22,1,.36,1);
+}
+.av-retorno-card:hover{background:rgba(252,209,22,.03);}
+.av-retorno-card:hover::before{height:100%;}
+
+.av-retorno-icon{
+  color:var(--amarillo);width:40px;height:40px;
+  border:1px solid rgba(252,209,22,.2);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.av-retorno-label{
+  font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin:0;
+}
+.av-retorno-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1rem,1.8vw,1.4rem);letter-spacing:.04em;
+  color:var(--blanco);line-height:1.2;margin:0;
+}
+
+/* ══ CANALES (deep dark) ══════════════════════════════════ */
+.av-canales{background:var(--azul-deep);}
+.av-canales-intro{
+  font-family:'Lora',serif;
+  color:rgba(255,255,255,.65);max-width:58ch;margin-bottom:2.5rem;
+}
+.av-canales-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:1.5rem;align-items:start;}
+@media(max-width:860px){.av-canales-grid{grid-template-columns:1fr;}}
+.av-canal-card{
+  display:flex;flex-direction:column;gap:.8rem;padding:1.75rem;
+  border:1px solid var(--linea);
+  transition:border-color .25s,transform .3s var(--ease);
+  position:relative;overflow:hidden;
+}
+.av-canal-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--amarillo) 0 33.33%,var(--azul) 33.33% 66.66%,var(--rojo) 66.66% 100%);
+  transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease);
+}
+.av-canal-card:hover::before{transform:scaleX(1);}
+.av-canal-card:hover{border-color:var(--amarillo-line);transform:translateY(-4px);}
+.av-canal-card--hl{
+  background:var(--azul);border-color:var(--azul);
+}
+.av-canal-card--hl::before{background:var(--amarillo);transform:scaleX(1);}
+.av-canal-card--bot{background:rgba(207,23,32,.08);border-color:rgba(207,23,32,.2);}
+.av-canal-card--bot::before{background:var(--rojo);transform:scaleX(1);}
+.av-canal-icon{color:var(--amarillo);}
+.av-canal-card--bot .av-canal-icon{color:var(--rojo);}
+.av-canal-label{
+  font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+.av-canal-val{
+  display:block;
+  font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em;
+  color:var(--blanco);line-height:1.5;transition:color .2s;
+}
+.av-canal-val:hover{color:var(--amarillo);}
+.av-canal-val--big{font-size:1.7rem;}
+.av-canal-desc{font-size:.85rem;line-height:1.6;color:rgba(255,255,255,.55);}
+
+/* ══ ORGANIZACIONES (azul) ════════════════════════════════ */
+.av-orgs{background:var(--azul);}
+.av-orgs-intro{
+  font-family:'Lora',serif;
+  color:rgba(255,255,255,.65);max-width:65ch;margin-bottom:2.5rem;
+}
+.av-orgs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem;}
+.av-org-card{
+  background:rgba(0,20,41,.4);border:1px solid rgba(252,209,22,.15);
+  padding:2rem;display:flex;flex-direction:column;gap:1rem;
+  transition:background .3s,transform .3s var(--ease),border-color .3s;
+}
+.av-org-card:hover{
+  background:rgba(0,20,41,.6);transform:translateY(-4px);
+  border-color:rgba(252,209,22,.4);
+}
+.av-org-badge{
+  display:flex;align-items:center;gap:.75rem;
+}
+.av-org-initial{
+  width:44px;height:44px;border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.06em;flex-shrink:0;
+}
+.av-org-card h3{
+  font-family:'Lora',serif;font-weight:600;font-size:.95rem;
+  color:var(--blanco);line-height:1.3;
+}
+.av-org-contacts{display:flex;flex-direction:column;gap:.6rem;border-top:1px solid rgba(255,255,255,.08);padding-top:.85rem;}
+.av-org-contact-row{display:flex;flex-direction:column;gap:.1rem;}
+.av-org-contact-label{font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.av-org-contacts a{color:rgba(255,255,255,.72);font-size:.84rem;line-height:1.65;transition:color .2s;}
+.av-org-contacts a:hover{color:var(--amarillo);}
+
+/* ══ REGISTRO (rojo/dark) ════════════════════════════════ */
+.av-registro{background:var(--azul-deep);position:relative;overflow:hidden;}
+.av-registro::before{
+  content:'';position:absolute;top:0;left:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--amarillo) 0 33.33%,var(--azul) 33.33% 66.66%,var(--rojo) 66.66% 100%);
+}
+.av-registro-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,5vw,5rem);align-items:start;}
+@media(max-width:720px){.av-registro-inner{grid-template-columns:1fr;}}
+.av-registro-text{display:flex;flex-direction:column;gap:1.5rem;}
+.av-registro-text p{color:rgba(255,255,255,.65);font-family:'Lora',serif;font-size:.95rem;line-height:1.75;}
+.av-registro-beneficios{display:flex;flex-direction:column;gap:0;border:1px solid var(--linea);}
+.av-registro-beneficios li{
+  display:flex;align-items:center;gap:.85rem;
+  font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.5;
+  padding:.85rem 1rem;border-bottom:1px solid var(--linea);
+  transition:background .2s;
+}
+.av-registro-beneficios li:last-child{border-bottom:none;}
+.av-registro-beneficios li:hover{background:var(--amarillo-dim);}
+.av-registro-beneficios li::before{
+  content:'→';color:var(--amarillo);font-size:.9rem;flex-shrink:0;
+}
+.av-registro-cta{display:flex;flex-direction:column;gap:1rem;}
+.av-registro-box{
+  background:var(--azul-mid);border:1px solid var(--amarillo-line);
+  padding:2rem;display:flex;flex-direction:column;gap:1.25rem;
+}
+.av-registro-box-icon{color:var(--amarillo);}
+.av-registro-box h3{
+  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;
+  color:var(--blanco);line-height:1;
+}
+.av-registro-box p{color:rgba(255,255,255,.6);font-size:.88rem;line-height:1.65;}
+.av-form-note{font-size:.72rem;color:rgba(255,255,255,.35);text-align:center;}
+.av-chatbot-box{
+  background:rgba(207,23,32,.08);border:1px solid rgba(207,23,32,.25);
+  padding:1.1rem 1.4rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.av-chatbot-box p{font-size:.83rem;color:rgba(255,255,255,.55);margin:0;}
+.av-chatbot-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.08em;
+  color:var(--rojo);white-space:nowrap;transition:opacity .2s;
+}
+.av-chatbot-link:hover{opacity:.7;}
+</style>
+
+<!-- ═══ CONTENIDO ═══════════════════════════════════════ -->
+<div class="av-root">
+
+  <!-- ══ HERO ══════════════════════════════════════════ -->
+  <section class="av-hero" id="av-inicio">
+    <div class="av-hero-bg">
+      <img src="https://informate.cancilleria.gob.ec/wp-content/uploads/2026/06/3f048b3e-d265-4247-a2d1-628e2001ff0c.jpg"
+           alt="Equipo USAR ECU-01 desplegado en Venezuela" loading="eager" fetchpriority="high"/>
+    </div>
+    <div class="av-hero-overlay"></div>
+    <div class="av-hero-accent"></div>
+    <div class="av-hero-grain"></div>
+    <div class="av-hero-content av-container">
+      <div class="av-hero-left">
+        <p class="av-hero-eyebrow">
+          <span class="av-eyebrow-pulse"></span>
+          Ayuda Humanitaria · Venezuela · 2026
+        </p>
+        <img src="https://informate.cancilleria.gob.ec/wp-content/uploads/2026/06/venezuelaayudalogo.png"
+             alt="Ecuador por Venezuela — Un abrazo solidario"
+             class="av-hero-logo-main"/>
+        <p class="av-hero-sub">
+          El equipo USAR ECU-01 fue desplegado para apoyar las labores de búsqueda y rescate.
+          Si eres ciudadano ecuatoriano en Venezuela, aquí encontrarás los canales de asistencia oficial.
+        </p>
+        <div class="av-hero-actions">
+          <a href="#av-registro" class="av-btn av-btn-primary">Regístrate aquí →</a>
+          <a href="#av-canales" class="av-btn av-btn-rojo">Canales de emergencia</a>
+        </div>
+      </div>
+      <div class="av-hero-stats-wrapper">
+        <p class="av-hero-stats-label">Ayuda enviada</p>
+        <div class="av-hero-stats">
+        <div class="av-stat">
+          <span class="av-stat-num" data-av-count="46">46</span>
+          <span class="av-stat-label">Especialistas USAR</span>
+        </div>
+        <div class="av-stat">
+          <span class="av-stat-num" data-av-count="2">2</span>
+          <span class="av-stat-label">Caninos rescate</span>
+        </div>
+        <div class="av-stat">
+          <span class="av-stat-num">6 T</span>
+          <span class="av-stat-label">Equipos transportados</span>
+        </div>
+      </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- ══ 01+02 MISIÓN ECUADOR ══════════════════════════ -->
+  <section class="av-section av-equipos" id="av-equipos">
+    <div class="av-container">
+
+      <!-- §01 Equipos -->
+      <div class="av-section-header av-reveal">
+        <span class="av-section-num">01</span>
+        <p class="av-eyebrow-tag">Equipos de Búsqueda y Rescate</p>
+        <h2 class="av-section-title">USAR ECU-01:<br><span class="av-am">Ecuador</span> responde.</h2>
+      </div>
+      <div class="av-equipos-grid">
+        <div class="av-equipos-text av-reveal">
+          <p>Ecuador activó el equipo USAR ECU-01 y lo desplegó a Venezuela para apoyar las labores de búsqueda, rescate y atención humanitaria a las poblaciones más afectadas.</p>
+          <div class="av-flag-stripe"></div>
+          <div class="av-usar-datos">
+            <div class="av-usar-item">
+              <span class="av-usar-label">Especialistas USAR</span>
+              <span class="av-usar-val">46</span>
+            </div>
+            <div class="av-usar-item">
+              <span class="av-usar-label">Caninos de búsqueda y rescate</span>
+              <span class="av-usar-val">2</span>
+            </div>
+            <div class="av-usar-item">
+              <span class="av-usar-label">Equipos transportados</span>
+              <span class="av-usar-val">6 Toneladas</span>
+            </div>
+            <div class="av-usar-item">
+              <span class="av-usar-label">Equipo movilizado</span>
+              <span class="av-usar-val">1 (USAR ECU-01)</span>
+            </div>
+          </div>
+        </div>
+        <div class="av-usar-img av-reveal">
+          <img src="https://informate.cancilleria.gob.ec/wp-content/uploads/2026/06/3f048b3e-d265-4247-a2d1-628e2001ff0c.jpg"
+               alt="Equipo USAR ECU-01 en aeropuerto" loading="lazy"/>
+          <div class="av-usar-img-stripe"></div>
+        </div>
+      </div>
+
+      <!-- §02 Retornados — mismo módulo, mismo fondo -->
+      <div class="av-retornados-inner av-reveal" id="av-retornados">
+        <div class="av-section-header av-section-header--sub">
+          <span class="av-section-num">02</span>
+          <p class="av-eyebrow-tag">Retornados desde Venezuela</p>
+          <h2 class="av-section-title">Ciudadanos ecuatorianos<br><span class="av-am">repatriados</span>.</h2>
+        </div>
+        <div class="av-retorno-grid">
+          <div class="av-retorno-card">
+            <div class="av-retorno-icon">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="3" y="8" width="26" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 13h26" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <p class="av-retorno-label">Fecha de retorno</p>
+            <p class="av-retorno-val">26 de junio</p>
+          </div>
+          <div class="av-retorno-card">
+            <div class="av-retorno-icon">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M6 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <p class="av-retorno-label">Repatriados</p>
+            <p class="av-retorno-val">3 ciudadanos ecuatorianos</p>
+          </div>
+          <div class="av-retorno-card">
+            <div class="av-retorno-icon">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M4 16L28 16M20 8l8 8-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <p class="av-retorno-label">Aeropuerto de salida</p>
+            <p class="av-retorno-val">Internacional de Maiquetía</p>
+          </div>
+          <div class="av-retorno-card">
+            <div class="av-retorno-icon">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="1.5"/><path d="M16 8v8l5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <p class="av-retorno-label">Aeropuerto de llegada</p>
+            <p class="av-retorno-val">Internacional Cotopaxi</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ FLAG STRIPE DIVIDER ════════════════════════════ -->
+  <div class="av-flag-stripe"></div>
+
+  <!-- ══ 03 CANALES OFICIALES ═══════════════════════════ -->
+  <section class="av-section av-canales" id="av-canales">
+    <div class="av-container">
+      <div class="av-section-header av-reveal">
+        <span class="av-section-num">03</span>
+        <p class="av-eyebrow-tag">Canales Oficiales</p>
+        <h2 class="av-section-title">Líneas de <span class="av-am">emergencia</span><br>y vulnerabilidad.</h2>
+      </div>
+      <p class="av-canales-intro av-reveal">Para casos de emergencia y vulnerabilidad, los ciudadanos ecuatorianos en Venezuela pueden contactarse por los siguientes canales oficiales:</p>
+      <div class="av-canales-grid">
+        <div class="av-canal-card av-canal-card--hl av-reveal" data-av-delay="0">
+          <div class="av-canal-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5.5 5.5h4l2 5-2.5 1.5a14 14 0 006.5 6.5L17 16l5 2v4A2 2 0 0120 24C10.059 24 2 15.941 2 6a2 2 0 012-2h1.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M18 2.5a7.5 7.5 0 017.5 7.5M18 6a4 4 0 014 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <p class="av-canal-label">WhatsApp de emergencia</p>
+          <a href="https://wa.me/593984241667" class="av-canal-val av-canal-val--big" target="_blank" rel="noopener noreferrer">+593 984241667</a>
+          <p class="av-canal-desc">Disponible 24 horas para casos de emergencia y vulnerabilidad.</p>
+        </div>
+        <div class="av-canal-card av-reveal" data-av-delay="100">
+          <div class="av-canal-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10l11 7 11-7" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <p class="av-canal-label">Consulado del Ecuador en Bogotá</p>
+          <a href="tel:+573138414045" class="av-canal-val">+57 3138414045</a>
+          <a href="tel:+573233195354" class="av-canal-val">+57 3233195354</a>
+        </div>
+        <div class="av-canal-card av-canal-card--bot av-reveal" data-av-delay="200">
+          <div class="av-canal-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 10h10M9 14h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 21l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p class="av-canal-label">Asistente virtual (chatbot) 24/7</p>
+          <p class="av-canal-desc">Disponible para consultas en cualquier momento.</p>
+          <a href="https://linktr.ee/CancilleriaEcuador" class="av-btn av-btn-rojo av-btn-sm" target="_blank" rel="noopener noreferrer">Acceder al chatbot →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FLAG STRIPE DIVIDER ════════════════════════════ -->
+  <div class="av-flag-stripe"></div>
+
+  <!-- ══ 04 ORGANIZACIONES ══════════════════════════════ -->
+  <section class="av-section av-orgs" id="av-organizaciones">
+    <div class="av-container">
+      <div class="av-section-header av-reveal">
+        <span class="av-section-num">04</span>
+        <p class="av-eyebrow-tag">Organismos Internacionales en Venezuela</p>
+        <h2 class="av-section-title">Cooperación<br><span class="av-am">internacional</span> activa.</h2>
+      </div>
+      <p class="av-orgs-intro av-reveal">Se han activado mecanismos de cooperación consular con organismos internacionales que operan en territorio venezolano:</p>
+      <div class="av-orgs-grid">
+        <div class="av-org-card av-reveal" data-av-delay="0">
+          <div class="av-org-badge">
+            <div class="av-org-initial" style="background:#0080c7;color:#fff;">OIM</div>
+            <h3>Organización Internacional para las Migraciones</h3>
+          </div>
+          <div class="av-org-contacts">
+            <div class="av-org-contact-row">
+              <span class="av-org-contact-label">Teléfonos</span>
+              <a href="tel:+582122664136">+58 212 266 41 36</a>
+              <a href="tel:+582122657948">+58 212 265 7948</a>
+            </div>
+            <div class="av-org-contact-row">
+              <span class="av-org-contact-label">Email</span>
+              <a href="mailto:iomcaracas@iom.int">iomcaracas@iom.int</a>
+            </div>
+            <div class="av-org-contact-row">
+              <span class="av-org-contact-label">Sitio web</span>
+              <a href="https://lac.iom.int/es/venezuela" target="_blank" rel="noopener noreferrer">lac.iom.int/es/venezuela</a>
+            </div>
+          </div>
+        </div>
+        <div class="av-org-card av-reveal" data-av-delay="100">
+          <div class="av-org-badge">
+            <div class="av-org-initial" style="background:#cc0000;color:#fff;">CICR</div>
+            <h3>Comité Internacional de la Cruz Roja</h3>
+          </div>
+          <div class="av-org-contacts">
+            <div class="av-org-contact-row">
+              <span class="av-org-contact-label">Teléfonos</span>
+              <a href="tel:+584241721364">+58 4241721364</a>
+              <a href="tel:+584126365015">+58 4126365015</a>
+            </div>
+            <div class="av-org-contact-row">
+              <span class="av-org-contact-label">Email</span>
+              <a href="mailto:centrocontactove@icrc.org">centrocontactove@icrc.org</a>
+            </div>
+          </div>
+        </div>
+        <div class="av-org-card av-reveal" data-av-delay="200">
+          <div class="av-org-badge">
+            <div class="av-org-initial" style="background:#009edb;color:#fff;">ACNUR</div>
+            <h3>ACNUR — Caracas</h3>
+          </div>
+          <div class="av-org-contacts">
+            <div class="av-org-contact-row">
+              <span class="av-org-contact-label">Teléfonos</span>
+              <a href="tel:+584241430035">+58 424 143 00 35</a>
+              <a href="tel:+584241414058">+58 424 141 40 58</a>
+            </div>
+            <div class="av-org-contact-row">
+              <span class="av-org-contact-label">Email</span>
+              <a href="mailto:vencauip@unhcr.org">vencauip@unhcr.org</a>
+            </div>
+            <div class="av-org-contact-row">
+              <span class="av-org-contact-label">Sitio web</span>
+              <a href="https://help.unhcr.org/venezuela/donde-encontrar-ayuda-2/organismos-internacionales/" target="_blank" rel="noopener noreferrer">help.unhcr.org/venezuela</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FLAG STRIPE DIVIDER ════════════════════════════ -->
+  <div class="av-flag-stripe"></div>
+
+  <!-- ══ 05 REGISTRO ════════════════════════════════════ -->
+  <section class="av-section av-registro" id="av-registro">
+    <div class="av-container">
+      <div class="av-registro-inner">
+        <div class="av-registro-text av-reveal">
+          <div class="av-section-header">
+            <span class="av-section-num">05</span>
+            <p class="av-eyebrow-tag">Registro</p>
+            <h2 class="av-section-title">¿Eres ecuatoriano<br>en <span class="av-am">Venezuela</span>?</h2>
+          </div>
+          <p>Las personas ecuatorianas que se encuentren en Venezuela y aún no se hayan registrado pueden completar el siguiente formulario para mantener actualizada su información y facilitar la gestión de la asistencia.</p>
+          <ul class="av-registro-beneficios">
+            <li>Acceso a asistencia consular prioritaria</li>
+            <li>Facilitación del proceso de repatriación</li>
+            <li>Coordinación con organismos internacionales</li>
+            <li>Actualización de información para gestión de asistencia</li>
+          </ul>
+        </div>
+        <div class="av-registro-cta av-reveal">
+          <div class="av-registro-box">
+            <div class="av-registro-box-icon">
+              <svg width="40" height="40" viewBox="0 0 48 48" fill="none"><rect x="6" y="8" width="36" height="32" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M14 18h20M14 24h20M14 30h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Formulario de registro oficial</h3>
+            <p>Completa el formulario de la Cancillería del Ecuador para mantener actualizada tu información en Venezuela.</p>
+            <a href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8K_B576jDEKGD1DF6p4dh2MM0cC-011Ck3k-4dY28clUOVlRMlNRU1daM0VKMzhHSVhYN1JBT1FRMi4u"
+               class="av-btn av-btn-primary av-btn-full" target="_blank" rel="noopener noreferrer">
+              Ir al formulario →
+            </a>
+            <p class="av-form-note">Formulario oficial de la Cancillería del Ecuador.</p>
+          </div>
+          <div class="av-chatbot-box">
+            <p>¿Necesitas ayuda inmediata?</p>
+            <a href="https://linktr.ee/CancilleriaEcuador" class="av-chatbot-link" target="_blank" rel="noopener noreferrer">
+              Consultar asistente 24/7 →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BOTTOM FLAG ════════════════════════════════════ -->
+  <div class="av-flag-stripe"></div>
+
+</div><!-- /av-root -->
+
+<script>
+(function(){
+  "use strict";
+  /* Smooth scroll */
+  document.addEventListener("click",function(e){
+    var a=e.target.closest('a[href^="#av-"]');
+    if(!a)return;
+    var el=document.querySelector(a.getAttribute("href"));
+    if(!el)return;
+    e.preventDefault();
+    el.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+  /* Reveal */
+  var items=document.querySelectorAll(".av-reveal");
+  if(items.length){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting)return;
+        var el=e.target,d=parseInt(el.dataset.avDelay,10)||0;
+        setTimeout(function(){el.classList.add("is-visible");},d);
+        io.unobserve(el);
+      });
+    },{threshold:0.04,rootMargin:"0px 0px -3% 0px"});
+    items.forEach(function(el){io.observe(el);});
+    setTimeout(function(){
+      document.querySelectorAll(".av-reveal:not(.is-visible)").forEach(function(el){
+        if(el.getBoundingClientRect().top<window.innerHeight)el.classList.add("is-visible");
+      });
+    },6000);
+  }
+  /* Count-up */
+  var counts=document.querySelectorAll("[data-av-count]");
+  if(counts.length){
+    var cio=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting)return;
+        var el=e.target,target=parseInt(el.dataset.avCount,10),start=performance.now(),dur=1800;
+        cio.unobserve(el);
+        (function tick(now){
+          var p=Math.min((now-start)/dur,1),eased=1-Math.pow(1-p,3);
+          el.textContent=Math.round(eased*target).toLocaleString("es");
+          if(p<1)requestAnimationFrame(tick);
+        })(start);
+      });
+    },{threshold:0.05});
+    counts.forEach(function(el){cio.observe(el);});
+  }
+})();
+</script>

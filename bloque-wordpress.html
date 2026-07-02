@@ -2,10 +2,15 @@
 
 <style>
 /* ══ FULL-WIDTH BREAKOUT ══════════════════════════════ */
+/* This WP theme's content column is NOT centered (has a sidebar / asymmetric layout),
+   so CSS-only centering tricks (transform, vw-margin) can't work — they all assume
+   the column sits in the middle of the viewport. JS below measures the column's real
+   offset and forces .av-root to span the true full window width starting at x=0,
+   which is correct regardless of sidebars, padding, or centering. */
+html,body{overflow-x:hidden !important;max-width:100% !important;background:#001429 !important;}
 .av-root{
-  width:100vw;
+  width:100%;
   position:relative;
-  margin-left:calc(50% - 50vw);
   max-width:none !important;
   box-sizing:border-box;
 }
@@ -97,11 +102,11 @@
 
 /* ══ NAVBAR ════════════════════════════════════════════ */
 .av-navbar{
-  position:fixed;top:0;left:0;right:0;z-index:100;
+  position:sticky;top:0;z-index:100;
   background:var(--azul);
   border-bottom:1px solid rgba(255,255,255,.08);
 }
-.av-navbar-spacer{height:64px;}
+.av-navbar-spacer{display:none;}
 .av-navbar-inner{
   max-width:1120px;margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2.5rem);
   display:flex;align-items:center;justify-content:space-between;
@@ -125,6 +130,27 @@
   padding:.5rem 1.1rem;border-radius:4px;
 }
 .av-navbar-cta:hover{background:#ffe033;color:var(--azul-deep) !important;}
+.av-navbar-toggle{
+  display:none;flex-direction:column;gap:.375rem;background:0;border:0;
+  cursor:pointer;padding:.5rem;color:var(--amarillo);
+}
+.av-navbar-toggle span{width:24px;height:2px;background:currentColor;transition:.3s;}
+.av-navbar-toggle.active span:nth-child(1){transform:rotate(45deg) translate(8px, 8px);}
+.av-navbar-toggle.active span:nth-child(2){opacity:0;}
+.av-navbar-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(8px, -8px);}
+@media (max-width:900px){
+  .av-navbar-toggle{display:flex;}
+  .av-navbar-links{
+    position:absolute;top:64px;left:0;right:0;
+    flex-direction:column;align-items:flex-start;
+    background:var(--azul);border-bottom:1px solid rgba(255,255,255,.08);
+    padding:1rem 1.25rem;gap:.75rem;
+    max-height:0;overflow:hidden;transition:max-height .3s;
+  }
+  .av-navbar-links.active{max-height:500px !important;}
+  .av-navbar-links li{width:100%;}
+  .av-navbar-links a{font-size:.85rem;}
+}
 @media(max-width:640px){
   .av-navbar-links{gap:1rem;}
   .av-navbar-links a{font-size:.7rem;}
@@ -142,6 +168,7 @@
   position:absolute;inset:0;z-index:1;
   background:
     linear-gradient(to top, rgba(0,20,41,.97) 0%, rgba(0,20,41,.75) 35%, rgba(0,20,41,.3) 70%, transparent 100%),
+    linear-gradient(to bottom, rgba(0,20,41,.75) 0%, transparent 30%),
     linear-gradient(to right, rgba(0,20,41,.6) 0%, transparent 60%);
 }
 .av-hero-accent{
@@ -167,7 +194,8 @@
   justify-content:flex-start;
   display:flex;align-items:center;gap:.65rem;
   font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(255,255,255,.65);margin-bottom:0;
+  color:rgba(255,255,255,.75);margin-bottom:0;
+  text-shadow:0 1px 6px rgba(0,0,0,.6);
 }
 .av-eyebrow-pulse{
   width:8px;height:8px;border-radius:50%;background:var(--rojo);flex-shrink:0;
@@ -443,7 +471,7 @@
 }
 @media(max-width:640px){.av-retornados-header{flex-direction:column;align-items:flex-start;}.av-retornados-counter{align-self:stretch;}}
 .av-return-list{
-  display:flex;flex-direction:column;gap:clamp(1rem,2vw,1.25rem);
+  display:flex;flex-direction:column;gap:clamp(.6rem,1.2vw,.85rem);
 }
 .av-return-row{
   background:rgba(255,255,255,.06);border:1px solid rgba(252,209,22,.2);
@@ -456,8 +484,8 @@
 }
 .av-return-card{
   flex:1 1 0;min-width:150px;
-  padding:clamp(1.25rem,2.5vw,2rem);
-  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.6rem;
+  padding:clamp(.75rem,1.5vw,1.15rem);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.35rem;
   text-align:center;
   border-right:1px solid rgba(252,209,22,.2);
 }
@@ -591,37 +619,63 @@
 }
 
 /* ══ ORGANIZACIONES (azul) ════════════════════════════════ */
-.av-orgs{background:var(--azul);}
+.av-orgs{background:var(--azul);position:relative;overflow:hidden;}
+.av-orgs::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(252,209,22,.08) 1px,transparent 1px);
+  background-size:28px 28px;opacity:.5;
+}
 .av-orgs-intro{
   font-family:'Barlow',sans-serif;
-  color:rgba(255,255,255,.65);max-width:65ch;margin-bottom:2.5rem;
+  color:rgba(255,255,255,.65);max-width:65ch;margin-bottom:2.75rem;
+  position:relative;
 }
-.av-orgs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem;}
+.av-orgs-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.75rem;
+  position:relative;
+}
 .av-org-card{
-  background:rgba(0,20,41,.4);border:1px solid rgba(252,209,22,.15);
-  padding:2rem;display:flex;flex-direction:column;gap:1rem;
-  transition:background .3s,transform .3s var(--ease),border-color .3s;
+  background:linear-gradient(165deg,rgba(0,20,41,.65),rgba(0,20,41,.4));
+  border:1px solid rgba(255,255,255,.08);
+  border-top:3px solid rgba(252,209,22,.35);
+  border-radius:2px;
+  padding:1.85rem 1.75rem 1.65rem;
+  display:flex;flex-direction:column;gap:1.15rem;
+  transition:transform .35s var(--ease),border-top-color .35s,box-shadow .35s;
 }
 .av-org-card:hover{
-  background:rgba(0,20,41,.6);transform:translateY(-4px);
-  border-color:rgba(252,209,22,.4);
+  transform:translateY(-5px);
+  border-top-color:var(--amarillo);
+  box-shadow:0 16px 40px rgba(0,10,25,.35);
 }
 .av-org-badge{
-  display:flex;align-items:center;gap:.75rem;
+  display:flex;align-items:flex-start;gap:1rem;
 }
 .av-org-initial{
-  width:44px;height:44px;border-radius:2px;
+  width:52px;height:52px;border-radius:6px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Barlow',sans-serif;font-size:1rem;letter-spacing:.06em;flex-shrink:0;
+  font-family:'Barlow',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.04em;
+  box-shadow:0 6px 18px rgba(0,0,0,.3);
 }
+.av-org-badge-text{display:flex;flex-direction:column;gap:.3rem;padding-top:.15rem;}
 .av-org-card h3{
-  font-family:'Barlow',sans-serif;font-weight:600;font-size:.95rem;
+  font-family:'Barlow',sans-serif;font-weight:600;font-size:1rem;
   color:var(--blanco);line-height:1.3;
 }
-.av-org-contacts{display:flex;flex-direction:column;gap:.6rem;border-top:1px solid rgba(255,255,255,.08);padding-top:.85rem;}
-.av-org-contact-row{display:flex;flex-direction:column;gap:.1rem;}
-.av-org-contact-label{font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);}
-.av-org-contacts a{color:rgba(255,255,255,.72);font-size:.84rem;line-height:1.65;transition:color .2s;}
+.av-org-tag{
+  font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--amarillo);opacity:.8;
+}
+.av-org-contacts{display:flex;flex-direction:column;gap:.75rem;border-top:1px solid rgba(255,255,255,.1);padding-top:1.1rem;}
+.av-org-contact-row{display:flex;gap:.65rem;align-items:flex-start;}
+.av-org-contact-icon{
+  flex-shrink:0;width:15px;height:15px;margin-top:.2rem;
+  color:rgba(252,209,22,.55);
+}
+.av-org-contact-icon svg{width:100%;height:100%;display:block;}
+.av-org-contact-body{display:flex;flex-direction:column;gap:.15rem;min-width:0;}
+.av-org-contact-label{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.av-org-contacts a{color:rgba(255,255,255,.78);font-size:.84rem;line-height:1.6;transition:color .2s;word-break:break-word;}
 .av-org-contacts a:hover{color:var(--amarillo);}
 
 /* ══ REGISTRO (acción oficial) ═══════════════════════════ */
@@ -756,7 +810,8 @@
     min-height:64px;
     padding-block:.7rem;
   }
-  .av-navbar-links{
+  /* navbar-links: desktop state only, mobile state defined above */
+  .av-navbar-links:not(.active){
     flex:1 1 auto;
     padding-bottom:.15rem;
   }
@@ -765,7 +820,7 @@
   }
   .av-hero-content{
     align-items:center;
-    padding-block:clamp(2rem,7vw,3rem);
+    padding-block:clamp(3rem,10vw,4rem) clamp(2rem,7vw,3rem);
   }
   .av-hero-eyebrow{text-align:left;}
   .av-hero-actions{
@@ -791,6 +846,7 @@
   .av-orgs-grid{
     grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   }
+  .av-navbar-links.active{max-height:500px !important;}
 }
 
 @media(max-width:640px){
@@ -829,8 +885,8 @@
     max-width:min(230px,78vw) !important;
   }
   .av-root .av-hero-title{
-    font-size:clamp(3rem,15vw,4.15rem);
-    line-height:.9;
+    font-size:clamp(2.1rem,10vw,2.9rem);
+    line-height:.95;
     overflow-wrap:normal;
     word-break:normal;
   }
@@ -959,6 +1015,11 @@
         <li><a href="#av-organizaciones">Organismos internacionales</a></li>
         <li><a href="#av-registro" class="av-navbar-cta">Regístrate</a></li>
       </ul>
+      <button class="av-navbar-toggle" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </nav>
   <div class="av-navbar-spacer"></div>
@@ -1058,6 +1119,25 @@
           </div>
           <div class="av-return-card">
             <span class="av-return-airport">Guayaquil</span>
+            <span class="av-return-label">Aeropuerto de llegada</span>
+          </div>
+        </div>
+
+        <div class="av-return-row">
+          <div class="av-return-card">
+            <span class="av-return-date">1<span class="av-return-month">julio</span></span>
+            <span class="av-return-label">Fecha de retorno</span>
+          </div>
+          <div class="av-return-card">
+            <span class="av-return-number">9</span>
+            <span class="av-return-label">Retornados</span>
+          </div>
+          <div class="av-return-card">
+            <span class="av-return-airport">Maiquetía</span>
+            <span class="av-return-label">Aeropuerto de salida</span>
+          </div>
+          <div class="av-return-card">
+            <span class="av-return-airport">Cotopaxi</span>
             <span class="av-return-label">Aeropuerto de llegada</span>
           </div>
         </div>
@@ -1182,59 +1262,92 @@
         <div class="av-org-card av-reveal" data-av-delay="0">
           <div class="av-org-badge">
             <div class="av-org-initial" style="background:#0080c7;color:#fff;">OIM</div>
-            <h3>Organización Internacional para las Migraciones</h3>
+            <div class="av-org-badge-text">
+              <span class="av-org-tag">Naciones Unidas</span>
+              <h3>Organización Internacional para las Migraciones</h3>
+            </div>
           </div>
           <div class="av-org-contacts">
             <div class="av-org-contact-row">
-              <span class="av-org-contact-label">Teléfonos</span>
-              <a href="tel:+582122664136">+58 212 266 41 36</a>
-              <a href="tel:+582122657948">+58 212 265 7948</a>
+              <span class="av-org-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+              <div class="av-org-contact-body">
+                <span class="av-org-contact-label">Teléfonos</span>
+                <a href="tel:+582122664136">+58 212 266 41 36</a>
+                <a href="tel:+582122657948">+58 212 265 7948</a>
+              </div>
             </div>
             <div class="av-org-contact-row">
-              <span class="av-org-contact-label">Email</span>
-              <a href="mailto:iomcaracas@iom.int">iomcaracas@iom.int</a>
+              <span class="av-org-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><path d="M2 6h20v12H2z"/></svg></span>
+              <div class="av-org-contact-body">
+                <span class="av-org-contact-label">Email</span>
+                <a href="mailto:iomcaracas@iom.int">iomcaracas@iom.int</a>
+              </div>
             </div>
             <div class="av-org-contact-row">
-              <span class="av-org-contact-label">Sitio web</span>
-              <a href="https://lac.iom.int/es/venezuela" target="_blank" rel="noopener noreferrer">lac.iom.int/es/venezuela</a>
+              <span class="av-org-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+              <div class="av-org-contact-body">
+                <span class="av-org-contact-label">Sitio web</span>
+                <a href="https://lac.iom.int/es/venezuela" target="_blank" rel="noopener noreferrer">lac.iom.int/es/venezuela</a>
+              </div>
             </div>
           </div>
         </div>
         <div class="av-org-card av-reveal" data-av-delay="100">
           <div class="av-org-badge">
             <div class="av-org-initial" style="background:#cc0000;color:#fff;">CICR</div>
-            <h3>Comité Internacional de la Cruz Roja</h3>
+            <div class="av-org-badge-text">
+              <span class="av-org-tag">Ayuda humanitaria</span>
+              <h3>Comité Internacional de la Cruz Roja</h3>
+            </div>
           </div>
           <div class="av-org-contacts">
             <div class="av-org-contact-row">
-              <span class="av-org-contact-label">Teléfonos</span>
-              <a href="tel:+584241721364">+58 4241721364</a>
-              <a href="tel:+584126365015">+58 4126365015</a>
+              <span class="av-org-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+              <div class="av-org-contact-body">
+                <span class="av-org-contact-label">Teléfonos</span>
+                <a href="tel:+584241721364">+58 4241721364</a>
+                <a href="tel:+584126365015">+58 4126365015</a>
+              </div>
             </div>
             <div class="av-org-contact-row">
-              <span class="av-org-contact-label">Email</span>
-              <a href="mailto:centrocontactove@icrc.org">centrocontactove@icrc.org</a>
+              <span class="av-org-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><path d="M2 6h20v12H2z"/></svg></span>
+              <div class="av-org-contact-body">
+                <span class="av-org-contact-label">Email</span>
+                <a href="mailto:centrocontactove@icrc.org">centrocontactove@icrc.org</a>
+              </div>
             </div>
           </div>
         </div>
         <div class="av-org-card av-reveal" data-av-delay="200">
           <div class="av-org-badge">
             <div class="av-org-initial" style="background:#009edb;color:#fff;">ACNUR</div>
-            <h3>ACNUR — Caracas</h3>
+            <div class="av-org-badge-text">
+              <span class="av-org-tag">Naciones Unidas</span>
+              <h3>ACNUR — Caracas</h3>
+            </div>
           </div>
           <div class="av-org-contacts">
             <div class="av-org-contact-row">
-              <span class="av-org-contact-label">Teléfonos</span>
-              <a href="tel:+584241430035">+58 424 143 00 35</a>
-              <a href="tel:+584241414058">+58 424 141 40 58</a>
+              <span class="av-org-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+              <div class="av-org-contact-body">
+                <span class="av-org-contact-label">Teléfonos</span>
+                <a href="tel:+584241430035">+58 424 143 00 35</a>
+                <a href="tel:+584241414058">+58 424 141 40 58</a>
+              </div>
             </div>
             <div class="av-org-contact-row">
-              <span class="av-org-contact-label">Email</span>
-              <a href="mailto:vencauip@unhcr.org">vencauip@unhcr.org</a>
+              <span class="av-org-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><path d="M2 6h20v12H2z"/></svg></span>
+              <div class="av-org-contact-body">
+                <span class="av-org-contact-label">Email</span>
+                <a href="mailto:vencauip@unhcr.org">vencauip@unhcr.org</a>
+              </div>
             </div>
             <div class="av-org-contact-row">
-              <span class="av-org-contact-label">Sitio web</span>
-              <a href="https://help.unhcr.org/venezuela/donde-encontrar-ayuda-2/organismos-internacionales/" target="_blank" rel="noopener noreferrer">help.unhcr.org/venezuela</a>
+              <span class="av-org-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+              <div class="av-org-contact-body">
+                <span class="av-org-contact-label">Sitio web</span>
+                <a href="https://help.unhcr.org/venezuela/donde-encontrar-ayuda-2/organismos-internacionales/" target="_blank" rel="noopener noreferrer">help.unhcr.org/venezuela</a>
+              </div>
             </div>
           </div>
         </div>
@@ -1310,15 +1423,63 @@
 <script>
 (function(){
   "use strict";
-  /* Navbar spacer sync (navbar is position:fixed, spacer must match its real height) */
-  (function(){
-    var nav=document.querySelector(".av-navbar"),spacer=document.querySelector(".av-navbar-spacer");
-    if(!nav||!spacer)return;
-    function sync(){spacer.style.height=nav.offsetHeight+"px";}
+  function safe(fn,name){try{fn();}catch(err){if(window.console)console.warn("[av] "+name+" failed:",err);}}
+  /* Force-hide horizontal overflow via inline style (wins over any theme stylesheet, cascade-proof) */
+  safe(function(){
+    document.documentElement.style.overflowX="hidden";
+    document.documentElement.style.maxWidth="100%";
+    document.documentElement.style.background="#001429";
+    document.body.style.overflowX="hidden";
+    document.body.style.maxWidth="100%";
+    document.body.style.background="#001429";
+  },"overflow-lock");
+  /* Full-bleed: re-parent .av-root to be a direct child of <body>, escaping any
+     WP theme wrapper that clips overflow (overflow:hidden columns, sidebars,
+     max-width containers). Width/margin tricks alone can't defeat real clipping —
+     only moving the node out of the clipping ancestor works reliably. */
+  safe(function(){
+    var root=document.querySelector(".av-root");
+    if(!root)return;
+    function sync(){
+      safe(function(){
+        if(root.parentElement!==document.body){
+          document.body.insertBefore(root,document.body.firstChild);
+        }
+        root.style.width="100%";
+        root.style.marginLeft="0px";
+        var trueWidth=window.innerWidth;
+        var offsetLeft=root.getBoundingClientRect().left;
+        root.style.width=trueWidth+"px";
+        root.style.marginLeft=(-offsetLeft)+"px";
+      },"fullbleed-sync");
+    }
     sync();
     window.addEventListener("resize",sync);
-    if(window.ResizeObserver)new ResizeObserver(sync).observe(nav);
-  })();
+    window.addEventListener("orientationchange",sync);
+    window.addEventListener("load",sync);
+    [50,300,800,1600,3000].forEach(function(d){setTimeout(sync,d);});
+  },"fullbleed-init");
+  /* Navbar is position:sticky (in-flow) — no spacer/JS-measured width needed. */
+  /* Mobile hamburger menu */
+  safe(function(){
+    setTimeout(function(){
+      var toggle=document.querySelector(".av-navbar-toggle");
+      var links=document.querySelector(".av-navbar-links");
+      if(!toggle||!links)return;
+      toggle.addEventListener("click",function(){
+        toggle.classList.toggle("active");
+        links.classList.toggle("active");
+        links.style.setProperty("max-height",links.classList.contains("active")?"500px":"0px","important");
+      });
+      links.addEventListener("click",function(e){
+        if(e.target.tagName==="A"){
+          toggle.classList.remove("active");
+          links.classList.remove("active");
+          links.style.setProperty("max-height","0px","important");
+        }
+      });
+    },0);
+  },"navbar-mobile");
   /* Smooth scroll */
   document.addEventListener("click",function(e){
     var a=e.target.closest('a[href^="#av-"]');

@@ -69,6 +69,7 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
 /* ══ LAYOUT ════════════════════════════════════════════ */
 .av-container{max-width:1120px;margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2.5rem);}
 .av-section{padding-block:clamp(3.5rem,7vw,6.5rem);}
+.av-hero,.av-section{scroll-margin-top:76px;}
 
 /* ══ REVEAL ════════════════════════════════════════════ */
 .av-reveal{opacity:0;transform:translateY(28px);transition:opacity .65s var(--ease),transform .65s var(--ease);}
@@ -102,11 +103,12 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
 
 /* ══ NAVBAR ════════════════════════════════════════════ */
 .av-navbar{
-  position:sticky;top:0;z-index:100;
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  width:100%;
   background:var(--azul);
   border-bottom:1px solid rgba(255,255,255,.08);
 }
-.av-navbar-spacer{display:none;}
+.av-navbar-spacer{display:block;height:64px;background:var(--azul);}
 .av-navbar-inner{
   max-width:1120px;margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2.5rem);
   display:flex;align-items:center;justify-content:space-between;
@@ -150,6 +152,22 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
   .av-navbar-links.active{max-height:500px !important;}
   .av-navbar-links li{width:100%;}
   .av-navbar-links a{font-size:.85rem;}
+}
+@media (min-width:901px){
+  .av-navbar-toggle{display:none !important;}
+  .av-navbar-links{
+    position:static !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    max-height:none !important;
+    overflow-x:auto !important;
+    overflow-y:visible !important;
+    padding:0 !important;
+    background:transparent !important;
+    border-bottom:0 !important;
+  }
+  .av-navbar-links li{width:auto !important;}
 }
 @media(max-width:640px){
   .av-navbar-links{gap:1rem;}
@@ -804,6 +822,7 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
 }
 
 @media(max-width:900px){
+  .av-hero,.av-section{scroll-margin-top:92px;}
   .av-navbar-inner{
     align-items:flex-start;
     height:auto;
@@ -1229,7 +1248,6 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
           </div>
           <div class="av-canal-actions">
             <a href="tel:+573138414045" class="av-canal-val">+57 3138414045</a>
-            <a href="tel:+573233195354" class="av-canal-val">+57 3233195354</a>
           </div>
         </div>
         <div class="av-canal-card av-canal-card--bot av-reveal" data-av-delay="200">
@@ -1459,7 +1477,20 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
     window.addEventListener("load",sync);
     [50,300,800,1600,3000].forEach(function(d){setTimeout(sync,d);});
   },"fullbleed-init");
-  /* Navbar is position:sticky (in-flow) — no spacer/JS-measured width needed. */
+  /* Fixed navbar spacer */
+  safe(function(){
+    var nav=document.querySelector(".av-navbar");
+    var spacer=document.querySelector(".av-navbar-spacer");
+    if(!nav||!spacer)return;
+    function syncSpacer(){
+      spacer.style.height=nav.getBoundingClientRect().height+"px";
+    }
+    syncSpacer();
+    window.addEventListener("resize",syncSpacer);
+    window.addEventListener("orientationchange",syncSpacer);
+    window.addEventListener("load",syncSpacer);
+    [50,300,800,1600].forEach(function(d){setTimeout(syncSpacer,d);});
+  },"navbar-spacer");
   /* Mobile hamburger menu */
   safe(function(){
     setTimeout(function(){
@@ -1473,11 +1504,25 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
       });
       links.addEventListener("click",function(e){
         if(e.target.tagName==="A"){
-          toggle.classList.remove("active");
-          links.classList.remove("active");
-          links.style.setProperty("max-height","0px","important");
+          if(window.innerWidth<=900){
+            toggle.classList.remove("active");
+            links.classList.remove("active");
+            links.style.setProperty("max-height","0px","important");
+          }else{
+            links.style.removeProperty("max-height");
+          }
         }
       });
+      function resetDesktopMenu(){
+        if(window.innerWidth>900){
+          toggle.classList.remove("active");
+          links.classList.remove("active");
+          links.style.removeProperty("max-height");
+        }
+      }
+      window.addEventListener("resize",resetDesktopMenu);
+      window.addEventListener("orientationchange",resetDesktopMenu);
+      resetDesktopMenu();
     },0);
   },"navbar-mobile");
   /* Smooth scroll */

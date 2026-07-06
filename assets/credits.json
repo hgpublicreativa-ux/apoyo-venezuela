@@ -1,0 +1,46 @@
+{
+  "hero": {
+    "src": "assets/img/hero.png",
+    "title": "Map of humanitarian aid to Venezuela",
+    "creator": "LLs",
+    "creator_url": "https://commons.wikimedia.org/wiki/User:LLs",
+    "license": "by-sa",
+    "license_version": "4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "foreign_landing_url": "https://commons.wikimedia.org/w/index.php?curid=76682839",
+    "source": "wikimedia"
+  },
+  "rescue": {
+    "src": "assets/img/rescue.jpg",
+    "title": "Banners of Sichuan Earthquake Rescue Teams",
+    "creator": "treasuresthouhast",
+    "creator_url": "https://www.flickr.com/photos/74568056@N00",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/74568056@N00/3308542079",
+    "source": "flickr"
+  },
+  "help": {
+    "src": "assets/img/help.jpg",
+    "title": "Africa Humanitarian Food Aid 21 (10665202905)",
+    "creator": "Kate Holt/AusAID",
+    "creator_url": null,
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://commons.wikimedia.org/w/index.php?curid=32168448",
+    "source": "wikimedia"
+  },
+  "children": {
+    "src": "assets/img/children.jpg",
+    "title": "Syrian refugee children in a Lebanese school classroom",
+    "creator": "DFID - UK Department for International Development",
+    "creator_url": "https://www.flickr.com/photos/14214150@N02",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/14214150@N02/15101234827",
+    "source": "flickr"
+  }
+}

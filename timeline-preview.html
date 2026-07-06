@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline Scroll Horizontal — Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --amarillo: #FCD116;
+      --azul: #003893;
+      --rojo: #CF1720;
+      --navy: #001429;
+    }
+
+    body {
+      background: #050e1a;
+      color: #fff;
+      font-family: 'Lora', serif;
+      padding: 3rem 2rem;
+      min-height: 100vh;
+    }
+
+    .container { max-width: 1120px; margin: 0 auto; }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.03em;
+    }
+    h1 span { color: var(--amarillo); }
+
+    .subtitle {
+      color: rgba(255,255,255,.55);
+      margin-bottom: 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .note {
+      background: rgba(252,209,22,.08);
+      border: 1px solid rgba(252,209,22,.25);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      margin-bottom: 2rem;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,.7);
+    }
+
+    /* contador arriba-derecha, opcional */
+    .htimeline-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+    }
+    .hint {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,.4);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .hint span { color: var(--amarillo); }
+
+    /* ═══ SCROLL WRAPPER ═══ */
+    .hscroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 2.5rem 0 1rem;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      /* fade en bordes indica que hay más */
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+    }
+    .hscroll::-webkit-scrollbar { height: 6px; }
+    .hscroll::-webkit-scrollbar-track { background: rgba(255,255,255,.05); border-radius: 3px; }
+    .hscroll::-webkit-scrollbar-thumb { background: rgba(252,209,22,.4); border-radius: 3px; }
+
+    .htrack {
+      position: relative;
+      display: flex;
+      gap: 1rem;
+      min-width: min-content;
+      padding: 0 0.25rem;
+    }
+
+    /* línea horizontal detrás de nodos, tan larga como el track */
+    .htrack::before {
+      content: '';
+      position: absolute;
+      top: -1.5rem;
+      left: 130px;
+      right: 130px;
+      height: 2px;
+      background: linear-gradient(to right, var(--amarillo), var(--rojo), var(--azul));
+      z-index: 0;
+    }
+
+    .hnode {
+      position: relative;
+      flex: 0 0 240px;   /* ancho fijo → scroll cuando no caben */
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(252,209,22,.2);
+      border-radius: 8px;
+      padding: 1.4rem 1rem 1.1rem;
+      text-align: center;
+      transition: all .3s ease;
+    }
+    .hnode:hover {
+      background: rgba(255,255,255,.09);
+      border-color: rgba(252,209,22,.5);
+      transform: translateY(-4px);
+    }
+    .hnode::before {
+      content: '';
+      position: absolute;
+      top: -1.5rem;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      background: var(--amarillo);
+      border: 4px solid #050e1a;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .hdate {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.7rem;
+      color: var(--amarillo);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+    .hcount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+    .hcount-label {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,.5);
+      margin: 0.15rem 0 0.85rem;
+    }
+    .hroute {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+    }
+    .hroute .apt { font-weight: 600; }
+    .hroute .arr { color: var(--amarillo); }
+    .hroute-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,.4);
+      margin-top: 0.5rem;
+    }
+
+    /* mobile: cards un poco más angostas */
+    @media (max-width: 480px) {
+      .hnode { flex: 0 0 200px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Ciudadanos ecuatorianos <span>repatriados</span></h1>
+    <p class="subtitle">Historial de vuelos de retorno desde Venezuela</p>
+
+    <div class="note">
+      ✔ Scroll horizontal — altura fija sin importar cuántos vuelos (4, 7, 10…). Desliza para ver más →
+    </div>
+
+    <div class="htimeline-head">
+      <div class="hint">Desliza para ver todos los vuelos →</div>
+      <div class="hint"><span>7</span> vuelos · <span>67</span> repatriados</div>
+    </div>
+
+    <div class="hscroll">
+      <div class="htrack">
+        <div class="hnode">
+          <div class="hdate">26 / jun</div>
+          <div class="hcount">3</div>
+          <div class="hcount-label">Repatriados</div>
+          <div class="hroute"><span class="apt">Maiquetía</span><span class="arr">✈</span><span class="apt">Cotopaxi</span></div>
+          <div class="hroute-label">Salida → Llegada</div>
+        </div>
+        <div class="hnode">
+          <div class="hdate">30 / jun</div>
+          <div class="hcount">6</div>
+          <div class="hcount-label">Repatriados</div>
+          <div class="hroute"><span class="apt">Maiquetía</span><span class="arr">✈</span><span class="apt">Guayaquil</span></div>
+          <div class="hroute-label">Salida → Llegada</div>
+        </div>
+        <div class="hnode">
+          <div class="hdate">1 / jul</div>
+          <div class="hcount">9</div>
+          <div class="hcount-label">Repatriados</div>
+          <div class="hroute"><span class="apt">Maiquetía</span><span class="arr">✈</span><span class="apt">Cotopaxi</span></div>
+          <div class="hroute-label">Salida → Llegada</div>
+        </div>
+        <div class="hnode">
+          <div class="hdate">3 / jul</div>
+          <div class="hcount">18</div>
+          <div class="hcount-label">Repatriados</div>
+          <div class="hroute"><span class="apt">Maiquetía</span><span class="arr">✈</span><span class="apt">Cotopaxi</span></div>
+          <div class="hroute-label">Salida → Llegada</div>
+        </div>
+        <div class="hnode">
+          <div class="hdate">8 / jul</div>
+          <div class="hcount">12</div>
+          <div class="hcount-label">Repatriados</div>
+          <div class="hroute"><span class="apt">Maiquetía</span><span class="arr">✈</span><span class="apt">Quito</span></div>
+          <div class="hroute-label">Salida → Llegada</div>
+        </div>
+        <div class="hnode">
+          <div class="hdate">12 / jul</div>
+          <div class="hcount">7</div>
+          <div class="hcount-label">Repatriados</div>
+          <div class="hroute"><span class="apt">Maiquetía</span><span class="arr">✈</span><span class="apt">Cotopaxi</span></div>
+          <div class="hroute-label">Salida → Llegada</div>
+        </div>
+        <div class="hnode">
+          <div class="hdate">15 / jul</div>
+          <div class="hcount">12</div>
+          <div class="hcount-label">Repatriados</div>
+          <div class="hroute"><span class="apt">Maiquetía</span><span class="arr">✈</span><span class="apt">Guayaquil</span></div>
+          <div class="hroute-label">Salida → Llegada</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

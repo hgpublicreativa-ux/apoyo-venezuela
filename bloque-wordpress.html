@@ -490,10 +490,11 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
 @media(max-width:640px){.av-retornados-header{flex-direction:column;align-items:flex-start;}.av-retornados-counter{align-self:stretch;}}
 .av-return-head{
   display:flex;margin-bottom:.5rem;
+  background:var(--amarillo);border-radius:4px;
 }
 .av-return-head span{
-  flex:1 1 0;min-width:150px;padding-inline:clamp(.45rem,.9vw,.65rem);
-  font-size:.68rem;color:rgba(255,255,255,.55);
+  flex:1 1 0;min-width:150px;padding:.55rem clamp(.45rem,.9vw,.65rem);
+  font-size:.7rem;color:var(--azul);font-weight:700;
   letter-spacing:.05em;text-transform:uppercase;text-align:center;
 }
 @media(max-width:640px){.av-return-head{display:none;}}

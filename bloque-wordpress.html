@@ -134,7 +134,7 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
 .av-navbar-cta:hover{background:#ffe033;color:var(--azul-deep) !important;}
 .av-navbar-toggle{
   display:none;flex-direction:column;gap:.375rem;background:0;border:0;
-  cursor:pointer;padding:.5rem;color:var(--amarillo);
+  cursor:pointer;padding:.5rem;color:var(--amarillo);flex-shrink:0;
 }
 .av-navbar-toggle span{width:24px;height:2px;background:currentColor;transition:.3s;}
 .av-navbar-toggle.active span:nth-child(1){transform:rotate(45deg) translate(8px, 8px);}
@@ -987,29 +987,17 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
     align-items:flex-start;
   }
   .av-chatbot-box{
+    grid-template-columns:1fr;
     align-items:stretch;
+    gap:.75rem;
   }
   .av-chatbot-link{
     white-space:normal;
+    justify-content:center;
   }
 }
 
 @media(max-width:420px){
-  .av-navbar-inner{
-    flex-direction:column;
-    align-items:stretch;
-  }
-  .av-navbar-brand{
-    justify-content:center;
-  }
-  .av-navbar-links{
-    width:100%;
-    flex-wrap:wrap;
-    justify-content:center;
-    overflow:visible;
-    mask-image:none;
-    -webkit-mask-image:none;
-  }
   .av-hero-eyebrow{
     font-size:.64rem;
     letter-spacing:.11em;

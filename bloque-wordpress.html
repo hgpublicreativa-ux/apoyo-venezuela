@@ -624,6 +624,16 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
 .av-canal-actions{
   display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;margin-top:auto;
 }
+.av-canal-actions--split{gap:1.1rem;}
+.av-canal-subitem{
+  display:flex;flex-direction:column;gap:.35rem;width:100%;
+  padding-bottom:1.1rem;border-bottom:1px solid rgba(255,255,255,.1);
+}
+.av-canal-subitem:last-child{padding-bottom:0;border-bottom:0;}
+.av-canal-sublabel{
+  font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+}
 @media(max-width:860px){
   .av-canales-header,
   .av-canales-grid{grid-template-columns:1fr;}
@@ -1261,6 +1271,25 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
         <div class="av-canal-card av-reveal" data-av-delay="100">
           <div class="av-canal-head">
             <div class="av-canal-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5.5 5.5h4l2 5-2.5 1.5a14 14 0 006.5 6.5L17 16l5 2v4A2 2 0 0120 24C10.059 24 2 15.941 2 6a2 2 0 012-2h1.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            </div>
+            <p class="av-canal-label">Contacto en Venezuela</p>
+          </div>
+          <div class="av-canal-actions av-canal-actions--split">
+            <div class="av-canal-subitem">
+              <span class="av-canal-sublabel">Llamadas telefónicas</span>
+              <a href="tel:+584224104298" class="av-canal-val">+58 422 410 4298</a>
+            </div>
+            <div class="av-canal-subitem">
+              <span class="av-canal-sublabel">WhatsApp de emergencia</span>
+              <a href="https://wa.me/593984291495" class="av-canal-val" target="_blank" rel="noopener noreferrer">+593 98 429 1495</a>
+            </div>
+          </div>
+          <p class="av-canal-desc">Disponible 24 horas para casos de emergencia y vulnerabilidad.</p>
+        </div>
+        <div class="av-canal-card av-reveal" data-av-delay="150">
+          <div class="av-canal-head">
+            <div class="av-canal-icon">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 10l11 7 11-7" stroke="currentColor" stroke-width="1.5"/></svg>
             </div>
             <p class="av-canal-label">Consulado del Ecuador en Bogotá</p>
@@ -1268,25 +1297,6 @@ html,body{overflow-x:hidden !important;max-width:100% !important;background:#001
           <div class="av-canal-actions">
             <a href="tel:+573138414045" class="av-canal-val">+57 313 841 4045</a>
           </div>
-        </div>
-        <div class="av-canal-card av-reveal" data-av-delay="150">
-          <div class="av-canal-head">
-            <div class="av-canal-icon">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5.5 5.5h4l2 5-2.5 1.5a14 14 0 006.5 6.5L17 16l5 2v4A2 2 0 0120 24C10.059 24 2 15.941 2 6a2 2 0 012-2h1.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-            </div>
-            <p class="av-canal-label">Contacto en Venezuela</p>
-          </div>
-          <div class="av-canal-actions">
-            <div style="margin-bottom:1rem;">
-              <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:0.5rem;">Llamadas telefónicas</div>
-              <a href="tel:+584224104298" class="av-canal-val">+58 422 410 4298</a>
-            </div>
-            <div>
-              <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:0.5rem;">WhatsApp de emergencia</div>
-              <a href="https://wa.me/593984291495" class="av-canal-val av-canal-val--big" target="_blank" rel="noopener noreferrer">+593 98 429 1495</a>
-            </div>
-          </div>
-          <p class="av-canal-desc" style="margin-top:1rem;">Disponible 24 horas para casos de emergencia y vulnerabilidad.</p>
         </div>
         <div class="av-canal-card av-canal-card--bot av-reveal" data-av-delay="250">
           <div class="av-canal-head">

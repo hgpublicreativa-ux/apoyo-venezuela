@@ -20,11 +20,17 @@
   }
 
   html,body{
-    background:var(--azul-deep);
+    overflow-x:hidden !important;max-width:100% !important;
+    background:var(--azul-deep) !important;
     color:var(--blanco);
     font-family:'Barlow',sans-serif;
-    overflow-x:hidden;
   }
+
+  .sv-root{
+    width:100%;position:relative;max-width:none !important;
+    box-sizing:border-box;background:var(--azul-deep);
+  }
+  .sv-root *,.sv-root *::before,.sv-root *::after{box-sizing:border-box;}
 
   /* ══ REVEAL ANIMATION ══ */
   @keyframes slideUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
@@ -396,6 +402,7 @@
 </head>
 <body>
 
+<div class="sv-root">
 <div class="flag-stripe"></div>
 
 <nav class="nav">
@@ -530,6 +537,7 @@
 </footer>
 
 <div class="flag-stripe"></div>
+</div>
 
 <script>
 (function(){
@@ -540,6 +548,32 @@
       links.classList.toggle('open');
     });
   }
+})();
+
+(function(){
+  function safe(fn){try{fn();}catch(e){}}
+  safe(function(){
+    var root=document.querySelector(".sv-root");
+    if(!root)return;
+    function sync(){
+      safe(function(){
+        if(root.parentElement!==document.body){
+          document.body.insertBefore(root,document.body.firstChild);
+        }
+        root.style.width="100%";
+        root.style.marginLeft="0px";
+        var trueWidth=window.innerWidth;
+        var offsetLeft=root.getBoundingClientRect().left;
+        root.style.width=trueWidth+"px";
+        root.style.marginLeft=(-offsetLeft)+"px";
+      });
+    }
+    sync();
+    window.addEventListener("resize",sync);
+    window.addEventListener("orientationchange",sync);
+    window.addEventListener("load",sync);
+    [50,300,800,1600,3000].forEach(function(d){setTimeout(sync,d);});
+  });
 })();
 </script>
 </body>

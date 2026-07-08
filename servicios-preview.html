@@ -204,16 +204,19 @@
   .service-card:hover::after{width:100%;}
 
   .service-icon{
-    width:56px;height:56px;
-    background:var(--amarillo);
+    width:64px;height:64px;
+    background:linear-gradient(150deg,#ffe033 0%,var(--amarillo) 100%);
     display:grid;place-items:center;margin-bottom:1.4rem;
     color:var(--azul-deep);
     clip-path:polygon(0 0,100% 0,100% 75%,75% 100%,0 100%);
     position:relative;z-index:1;
-    transition:transform .3s var(--ease);
+    box-shadow:0 8px 20px rgba(252,209,22,.25);
+    transition:transform .3s var(--ease),box-shadow .3s var(--ease);
   }
 
-  .service-icon svg{width:26px;height:26px;stroke:var(--azul-deep);fill:none;stroke-width:2;}
+  .service-icon svg{width:30px;height:30px;stroke:var(--azul-deep);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+  .service-card:hover .service-icon{box-shadow:0 10px 26px rgba(252,209,22,.4);}
 
   .service-card:hover .service-icon{transform:scale(1.08) rotate(-3deg);}
 
@@ -453,7 +456,7 @@
   <div class="servicios-grid">
     <div class="service-card reveal reveal-1" data-index="01">
       <div class="service-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2L3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6l-9-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2L3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6l-9-4z"/><path d="M12 8v8M8 12h8"/></svg>
       </div>
       <h3>Emergencia humanitaria</h3>
       <p>Retorno asistido, búsqueda de personas desaparecidas y repatriación de restos mortales.</p>
@@ -469,7 +472,7 @@
 
     <div class="service-card reveal reveal-3" data-index="03">
       <div class="service-icon">
-        <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5"/><circle cx="16.5" cy="16.5" r="3"/><path d="M15 16.5l1 1 1.5-1.5"/></svg>
       </div>
       <h3>Actos de registro civil</h3>
       <p>Renovación de cédulas de identidad, registro de nacimiento, registro de defunción, entre otros.</p>

@@ -85,17 +85,18 @@
 
   /* ══ HERO ══ */
   .hero{
-    background:linear-gradient(135deg,rgba(0,56,147,.65) 0%,rgba(0,20,41,.85) 100%),url('https://informate.cancilleria.gob.ec/wp-content/uploads/2026/07/banner-servicios-scaled.png');
-    background-size:cover;background-position:center;background-attachment:fixed;
+    background:linear-gradient(135deg,rgba(0,56,147,.65) 0%,rgba(0,20,41,.85) 100%);
     padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,3rem);
     border-bottom:3px solid var(--amarillo);
     position:relative;
     overflow:hidden;
-    transform:scaleX(-1);
   }
 
-  .hero-content{
-    transform:scaleX(-1);
+  .hero::before{
+    content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+    background:url('https://informate.cancilleria.gob.ec/wp-content/uploads/2026/07/banner-servicios-scaled.png');
+    background-size:cover;background-position:center;
+    transform:scaleX(-1);z-index:0;pointer-events:none;
   }
 
   .hero::before{

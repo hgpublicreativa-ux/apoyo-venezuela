@@ -115,6 +115,16 @@
     margin-bottom:1.5rem;animation:slideUp .65s var(--ease);
   }
 
+  .hero-alert{
+    display:inline-flex;align-items:center;gap:.6rem;
+    background:rgba(207,23,32,.18);border:1.5px solid var(--rojo);
+    padding:.7rem 1.2rem;border-radius:4px;
+    font-size:.85rem;font-weight:700;color:#fff;
+    margin-bottom:1.5rem;animation:slideUp .65s var(--ease) .05s both;
+  }
+
+  .hero-alert strong{color:var(--amarillo);}
+
   .hero h1{
     font-family:'Barlow Condensed',sans-serif;
     font-size:clamp(2.4rem,7vw,4.2rem);font-weight:800;
@@ -361,6 +371,7 @@
 <header class="hero">
   <div class="hero-content">
     <div class="hero-badge">Atención consular</div>
+    <div class="hero-alert">⚠️ Atención <strong>temporal</strong> — misión de <strong>30 días</strong>, del 3 de julio al 2 de agosto de 2026</div>
     <h1>Servicios para <span>ecuatorianos</span> en Venezuela</h1>
     <p>Consulado del Ecuador en Caracas brinda servicios de trámites y asistencia humanitaria. Todos los trámites son gratuitos o a costo oficial. <strong>Misión especial: 3 de julio – 2 de agosto de 2026.</strong> Consulte horarios y disponibilidad abajo.</p>
   </div>
@@ -409,7 +420,7 @@
         <p>09:00 a 17:00</p>
         <p style="margin-top:1rem;"><strong>Emergencias:</strong></p>
         <p>24 horas, 7 días</p>
-        <div class="info-highlight">Disponible desde viernes 10 de julio</div>
+        <div class="info-highlight">Disponible desde viernes 10 de julio · Misión temporal de 30 días</div>
       </div>
 
       <div class="info-box">

@@ -95,7 +95,16 @@
     padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,3rem);
     border-bottom:3px solid var(--amarillo);
     position:relative;
-    overflow:hidden;
+    overflow:visible;
+  }
+
+  .hero-badge-logo{
+    position:absolute;bottom:0;left:50%;
+    transform:translate(-50%,50%);
+    height:90px;width:auto;z-index:2;
+    background:var(--azul-deep);border:3px solid var(--amarillo);
+    border-radius:8px;padding:.6rem 1rem;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
   }
 
   .hero::before{
@@ -457,6 +466,7 @@
     <h1>Ecuador reactiva atención consular <span>temporal por 30 días</span> en Venezuela</h1>
     <p>El servicio se brinda en la Sección de Intereses del Ecuador de la Embajada de Suiza en Caracas, Venezuela.</p>
   </div>
+  <img src="https://informate.cancilleria.gob.ec/wp-content/uploads/2026/07/venezuelaayudalogo4.png" alt="Ecuador por Venezuela" class="hero-badge-logo"/>
 </header>
 
 <section class="servicios">

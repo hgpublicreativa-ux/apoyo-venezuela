@@ -192,6 +192,34 @@
   .foot-copy{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);}
 
   .flag{height:5px;background:linear-gradient(90deg,var(--amarillo) 0 33.33%,var(--azul) 33.33% 66.66%,var(--rojo) 66.66% 100%);}
+
+  /* ── INFO SECTION ── */
+  .info-section{
+    background:rgba(255,255,255,.02);
+    border-top:1px solid rgba(252,209,22,.15);border-bottom:1px solid rgba(252,209,22,.15);
+    padding:clamp(3rem,8vw,5rem) clamp(1.25rem,5vw,2.5rem);
+  }
+  .info-container{max-width:1120px;margin-inline:auto;}
+  .info-title{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    font-size:clamp(1.8rem,4vw,2.2rem);text-transform:uppercase;color:#fff;
+    margin-bottom:2.5rem;letter-spacing:.01em;
+  }
+  .info-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;
+  }
+  .info-box{
+    background:rgba(255,255,255,.03);border:1px solid rgba(252,209,22,.2);
+    border-radius:8px;padding:1.8rem;transition:all .3s ease;
+  }
+  .info-box:hover{background:rgba(255,255,255,.05);border-color:var(--amarillo-line);}
+  .info-box h4{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;
+    text-transform:uppercase;color:var(--amarillo);margin-bottom:.8rem;letter-spacing:.04em;
+  }
+  .info-box p{font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:.6rem;}
+  .info-box p:last-child{margin-bottom:0;}
+  .info-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5);margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(252,209,22,.1);}
 </style>
 </head>
 <body>
@@ -227,42 +255,60 @@
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="9" r="2.5"/><path d="M8 16c0-2 1.8-3 4-3s4 1 4 3"/></svg>
       </div>
-      <h3>Emisión de pasaportes</h3>
-      <p>Servicio prioritario. Se ejecutan gestiones para poner en operación la oficina consular y restablecer la prestación de servicios, priorizando la emisión de pasaportes ordinarios en atención a la demanda existente.</p>
+      <h3>Emisión y renovación de pasaportes</h3>
+      <p>Trámite de emisión y renovación de pasaportes ordinarios para ecuatorianos. Servicio disponible a partir del viernes 10 de julio de 2026.</p>
     </div>
 
     <div class="card">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
       </div>
-      <h3>Registro civil</h3>
-      <p>Los funcionarios estarán habilitados para realizar actos de registro civil: inscripciones de nacimientos, matrimonios y defunciones de ecuatorianos ocurridos en el exterior, con emisión oficial de actas y certificados.</p>
+      <h3>Renovación de cédulas de identidad</h3>
+      <p>Trámite de renovación de cédulas de identidad para ecuatorianos. Disponible a partir del viernes 10 de julio de 2026.</p>
     </div>
 
     <div class="card">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h5"/></svg>
       </div>
-      <h3>Trámites notariales</h3>
-      <p>Actuaciones notariales autorizadas: otorgamiento de poderes especiales y generales, autenticación de firmas y legalización de documentos con validez legal en el Ecuador según normativa vigente.</p>
+      <h3>Actos de registro civil</h3>
+      <p>Registros de nacimiento, defunción y matrimonio / unión de hecho de ecuatorianos ocurridos en el exterior. Disponible a partir del viernes 10 de julio de 2026.</p>
     </div>
 
     <div class="card">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
       </div>
-      <h3>Atención y asistencia consular</h3>
-      <p>Orientación e información sobre trámites y gestiones consulares. Se han activado protocolos institucionales para atención integral: protección a ecuatorianos en vulnerabilidad, búsqueda y localización de desaparecidos, y procedimientos especiales según necesidad.</p>
+      <h3>Asistencia en caso de emergencia humanitaria</h3>
+      <p>Retorno asistido, búsqueda de personas desaparecidas y repatriación de restos mortales. Disponible 24/7 desde el 3 de julio de 2026.</p>
     </div>
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c-4.5-2-8-5-8-10V6l8-4 8 4v5c0 5-3.5 8-8 10z"/><path d="M12 8v5M9.5 10.5h5"/></svg>
+  </section>
+
+  <section class="info-section">
+    <div class="info-container">
+      <h2 class="info-title">Información de atención</h2>
+      <div class="info-grid">
+        <div class="info-box">
+          <h4>Horarios de atención</h4>
+          <p><strong>Trámites generales:</strong> 09:00 a 17:00</p>
+          <p><strong>Casos de vulnerabilidad y emergencia:</strong> 24/7</p>
+          <div class="info-label">Disponible desde el viernes 10 de julio de 2026</div>
+        </div>
+        <div class="info-box">
+          <h4>Ubicación</h4>
+          <p>Sección de Intereses del Ecuador en la Embajada de Suiza en Caracas</p>
+          <p>Quinta Magda, 4ta Avenida de Altamira, entre Quinta y Sexta Transversal, Municipio Chacao, Estado Miranda</p>
+          <div class="info-label">Funcionarios presentes hasta el 2 de agosto de 2026</div>
+        </div>
+        <div class="info-box">
+          <h4>Contacto directo</h4>
+          <p><strong>WhatsApp:</strong> +593 984 291 495</p>
+          <p><strong>Llamadas:</strong> +58 422 410 4298</p>
+          <div class="info-label">Disponible 24/7 para emergencias</div>
+        </div>
       </div>
-      <h3>Apoyo a ecuatorianos en situación vulnerable</h3>
-      <p>Protocolo activo de protección a ecuatorianos en situación o condición de vulnerabilidad: acompañamiento integral, asistencia humanitaria, procesos de retorno asistido, localización de desaparecidos y repatriación cuando proceda, con coordinación operativa a través de Bogotá y representación de Suiza.</p>
     </div>
-
   </section>
 
   <section class="cta">
@@ -273,25 +319,15 @@
       <a href="https://linktr.ee/CancilleriaEcuador" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Consultar asistente 24/7 →</a>
     </div>
     <div class="emerg-grid">
-      <a href="https://wa.me/593984241667" target="_blank" rel="noopener noreferrer" class="emerg-card">
-        <span class="emerg-label">WhatsApp de emergencia</span>
-        <span class="emerg-num">+593 98 424 1667</span>
+      <a href="https://wa.me/593984291495" target="_blank" rel="noopener noreferrer" class="emerg-card">
+        <span class="emerg-label">WhatsApp</span>
+        <span class="emerg-num">+593 984 291 495</span>
         <span class="emerg-sub">24 horas</span>
       </a>
       <a href="tel:+584224104298" class="emerg-card">
-        <span class="emerg-label">Llamadas · Venezuela</span>
+        <span class="emerg-label">Llamadas</span>
         <span class="emerg-num">+58 422 410 4298</span>
-        <span class="emerg-sub">Contacto directo</span>
-      </a>
-      <a href="https://wa.me/593984291495" target="_blank" rel="noopener noreferrer" class="emerg-card">
-        <span class="emerg-label">WhatsApp · Venezuela</span>
-        <span class="emerg-num">+593 98 429 1495</span>
         <span class="emerg-sub">24 horas</span>
-      </a>
-      <a href="tel:+573138414045" class="emerg-card">
-        <span class="emerg-label">Consulado en Bogotá</span>
-        <span class="emerg-num">+57 313 841 4045</span>
-        <span class="emerg-sub">+57 324 644 5604</span>
       </a>
     </div>
   </section>
